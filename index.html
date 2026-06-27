@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congratulations My Crush ✨</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* Base Reset */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Padauk', 'Noto Sans Myanmar', Arial, Helvetica, sans-serif;
+}
+
+body{
+    overflow:hidden; 
+    background:linear-gradient(135deg,#ffc0cb,#ff69b4,#ffb6c1);
+    color:white;
+    min-height: 100vh;
+}
+
+/* Common Button Style */
+.btn-main {
+    margin-top:25px;
+    padding:14px 35px;
+    border:none;
+    border-radius:30px;
+    background:#ff1493;
+    color:white;
+    font-size:18px;
+    font-weight: bold;
+    cursor:pointer;
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+    transition:0.3s;
+}
+
+.btn-main:hover{
+    background:#ff69b4;
+    transform:scale(1.05);
+}
+
+/* Canvas background */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* ==========================================
+   PAGE 1: ORIGINAL CANVAS SURPRISE PAGE
+   ========================================== */
+#page1 {
+    height:100vh;
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.main-title{
+    font-size:55px;
+    margin-bottom:15px;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+ font-weight: bold;
+}
+
+.main-p{
+    font-size:22px;
+    max-width:600px;
+ font-weight: bold;
+}
+
+/* ==========================================
+   PAGE 2: INTRO & PHOTO GALLERY (၄ ပုံစနစ်)
+   ========================================== */
+#page2 {
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 15px;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg,#ffb6c1,#ff69b4,#ffcdd2); 
+    overflow-y: auto; /* ဖုန်းအသေးလေးတွေမှာ အောက်ဆွဲကြည့်လို့ရအောင် */
+}
+
+.badge-g12 {
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    border: 2px solid #ffffff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 22px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.intro-title {
+    font-size: 40px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    line-height: 1.2;
+}
+
+.intro-p {
+    font-size: 18px;
+    max-width: 550px;
+    margin-bottom: 5px;
+    opacity: 0.95;
+    line-height: 1.5;
+    padding: 0 10px;
+}
+
+.photo-hint {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 20px;
+    font-style: italic;
+    background-color: rgba(255, 20, 147, 0.2);
+    padding: 4px 15px;
+    border-radius: 20px;
+}
+
+/* 📸 Responsive ပိုလှအောင် ပြင်ဆင်ထားတဲ့ Photo Gallery Layout */
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Desktop မှာ ၄ ပုံ တန်းလျက် */
+    gap: 15px;
+    width: 100%;
+    max-width: 650px;
+    padding: 10px;
+}
+
+.photo-frame {
+    background-color: white;
+    padding: 8px 8px 24px 8px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transform: rotate(var(--rotation));
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.photo-frame:hover {
+    transform: scale(1.08) rotate(0deg);
+    z-index: 10;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 2px;
+    background-color: #ffeef4;
+}
+
+/* ==========================================
+   PAGE 3: TIKTOK LETTER & SIDEBAR WITH HORIZONTAL SCROLL
+========================================== */
+#page3 {
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #d81b60, #ff4081, #ff80ab); 
+    overflow-y: auto;
+}
+.letter-container {
+    display: flex;
+    flex-direction: row; 
+    width: 100%;
+    max-width: 850px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    gap: 20px;
+    align-items: center;
+}
+
+.letter-paper {
+    flex: 2; 
+    background: #fffdf6; 
+    color: #333;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.1);
+    text-align: left;
+    position: relative;
+    max-height: 460px;
+    overflow-y: auto;
+}
+
+.letter-paper::after {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 25px;
+    opacity: 0.8;
+}
+
+.letter-text h2 {
+    font-size: 16px;
+    color: #d81b60;
+    margin-bottom: 15px;
+    border-bottom: 2px dashed #ff80ab;
+    padding-bottom: 5px;
+}
+
+.letter-text p {
+    font-size: 16px;
+    line-height: 2; /* စာကြောင်းအကွာအဝေးကို ပိုလှအောင် 2 ပေးထားပါတယ် */
+    color: #444;
+    white-space: pre-line; 
+}
+
+.signature-box {
+    text-align: right;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #d81b60;
+}
+
+.photo-sidebar-wrapper {
+    flex: 1;
+    max-width: 240px; 
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0 5px;
+    font-weight: bold;
+}
+
+.sidebar-header-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sidebar-hint {
+    font-size: 11px;
+    color: #ffe0b2;
+    text-align: left;
+    font-weight: normal;
+}
+
+.photo-sidebar {
+    display: flex;
+    flex-direction: row; 
+    gap: 18px;
+    overflow-x: auto; 
+    padding: 15px 5px;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.photo-sidebar::-webkit-scrollbar {
+    height: 6px;
+}
+.photo-sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+.photo-sidebar::-webkit-scrollbar-thumb {
+    background: #ff4081;
+    border-radius: 10px;
+}
+
+/* 🖼️ စာသားပါထည့်လို့ရမယ့် Card Box စတိုင် ပြင်ဆင်ခြင်း */
+.sidebar-card {
+    display: inline-flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 6px 6px 10px 6px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    flex-shrink: 0;
+    transform: rotate(var(--r, 0deg));
+    transition: 0.3s ease;
+    width: 180px;
+}
+
+.sidebar-card:hover {
+    transform: scale(1.05) rotate(0deg);
+    z-index: 5;
+}
+
+.sidebar-img {
+    width: 100%; 
+    height: 130px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: zoom-in;
+}
+
+/* ✍️ ဓာတ်ပုံအောက်က စာသားရေးရမည့် Box သေးသေးလေး */
+.caption-box {
+    margin-top: 6px;
+    background-color: #fff0f5;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: #d81b60;
+    font-weight: bold;
+    text-align: center;
+    white-space: normal; /* စာရှည်ရင် အောက်ကြောင်းဆင်းပေးဖို့ */
+    line-height: 1.3;
+    border: 1px dashed #ff80ab;
+}
+
+/* ==========================================
+   🔍 LIGHTBOX MODAL (IMAGE ZOOM - NOT FULL SCREEN)
+   ========================================== */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+.lightbox-content {
+    max-width: 80%; /* Screen အပြည့်မဖြစ်အောင် ၈၀ ရာခိုင်နှုန်းပဲ ထိန်းထားပါတယ် */
+    max-height: 75vh; /* အမြင့်ကိုလည်း သင့်တော်ရုံပဲ ကျယ်စေပါတယ် */
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+    border: 5px solid white;
+    animation: zoomAnimation 0.25s ease-out;
+}
+
+@keyframes zoomAnimation {
+    from { transform: scale(0.75); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================
+   ✨ SMART RESPONSIVE DESIGN (ဖုန်း Screen များအတွက်)
+   ========================================== */
+@media(max-width:768px){
+    .intro-title{
+        font-size:28px;
+    }
+    .main-title{
+        font-size:35px;
+    }
+    .intro-p, .main-p{
+        font-size:16px;
+    }
+    
+    /* 📸 ဖုန်းမှာ ၄ ပုံလုံး ညီညီညာညာနဲ့ ၂ ပုံတစ်တွဲ ပေါ်နေစေရန် */
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px;
+        max-width: 340px;
+    }
+    .photo-frame {
+        padding: 5px 5px 18px 5px;
+    }
+    .photo-frame img {
+        height: 110px;
+    }
+    
+    .letter-container {
+        flex-direction: column; 
+        padding: 16px;
+    }
+    .photo-sidebar-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    .sidebar-card {
+        width: 140px;
+    }
+    .sidebar-img {
+        height: 105px;
+    }
+    .caption-box {
+        font-size: 11px;
+        padding: 3px;
+    }
+    .letter-paper {
+        max-height: 300px;
+    }
+    .lightbox-content {
+        max-width: 85%;
+        max-height: 65vh;
+    }
+}
+
+@media(max-width:340px) {
+    .intro-title {
+        font-size: 24px;
+    }
+    .photo-gallery {
+        gap: 8px;
+    }
+    .photo-frame img {
+        height: 95px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div id="page1">
+        <h1 class="main-title"> 🎉Congratulations Chan 🎉</h1>
+        <p class="main-p">
+            Wishing you happiness, success and beautiful memories ahead for you  💖
+        </p>
+        <button class="btn-main" onclick="showPage2()">
+            Click Me
+        </button>
+    </div>
+
+    <div id="page2">
+        <div class="badge-g12">🎓 GRADE 12 PASSED</div>
+        <h1 class="intro-title">Congratulations To My Favorite Person!</h1>
+        <p class="intro-p">Grade 12 ကို ထူးထူးချွန်ချွန်နဲ့ အောင်မြင်သွားတဲ့အတွက် တကယ်ပဲ ဂုဏ်ယူဝမ်းသာရပါတယ်ဗျာ။ ✨</p>
+        <p class="photo-hint">📸 ပုံများကို နှိပ်ပြီး ကြည့်ရှုနိုင်ပါသည် ✨</p>
+        
+        <div class="photo-gallery">
+            <div class="photo-frame" style="--rotation: -5deg;">
+                <img src="C:/Users/hp/Desktop/congraulations/P1.jpg" alt="Crush Photo 1">
+            </div>
+
+            <div class="photo-frame" style="--rotation: 3deg;">
+                <img src="C:/Users/hp/Desktop/congraulations/P2.jpg" alt="Crush Photo 2">
+            </div>
+
+            <div class="photo-frame" style="--rotation: -3deg;">
+                <img src="C:\Users\hp\Desktop\congraulations\P3.jpg" alt="Crush Photo 3">
+            </div>
+
+            <div class="photo-frame" style="--rotation: 4deg;">
+                <img src="C:\Users\hp\Desktop\congraulations\P4.jpg" alt="Crush Photo 4">
+            </div>
+        </div>
+
+        <button class="btn-main" onclick="showPage3()">
+            Next Surprise 🎁
+        </button>
+    </div>
+
+
+    <div id="page3">
+        <div class="letter-container">
+            
+            <div class="letter-paper">
+                <div class="letter-text">
+                    <h2>Dear My Crush ,</h2>
+        <h2>(For Nyi Ma Lay <br> Aye Chan Moe),🌸</h2> 
+                    <p>ဒီနေ့ကတော့ ချမ်းအတွက် အပျော်ဆုံးနေ့ရက်တွေထဲက တစ်နေ့ပေါ့နော့။ ကြိုးစားခဲ့သမျှတွေ အရာထင်ပြီး Grade 12 ကို စာမေးပွဲ ထူးချွန်စွာ အောင်မြင်သွားတဲ့အတွက် အရမ်းပဲ ဂုဏ်ယူမိပါတယ်ကွယ်။ အများကြီးကြိုးစားခဲ့ရတာ သိတာမလို့ ဒီရလာဒ်က ချမ်းနဲ့ သေချာပေါက်ထိုက်တန်ပါတယ်။ငါတို့ ချမ်းလေး ပင်ပန်းရကျိုးနပ်ခဲ့ပြီ 🦋💖
+
+                    ပြီးတော့ရှေ့ဆက်ရမယ့် တက္ကသိုလ်ပညာရေးလမ်းခရီးမှာလည်း စိတ်သွားတိုင်းကိုယ်ပါပြီး အောင်မြင်မှုတွေ အလီလီ သိမ်းပိုက်နိုင်ပါစေ၊အနာဂါတ်ဘဝ ခရီးလမ်းမှာလဲ ခလုတ်မထိ ဆူးမငြိပဲ ရည်ရွယ်ရာ ပန်းတိုင်ကို ဖြောင့်မတ် စွာ လျောက်လမ်းနိုင်ပါစေ ၊ မိဘကို အလုပ်ကျွေးပြုနိုင်ပြီးတော့ နောင်တစ်ချိန်မှာ ကိုယ့်ရဲ့ ဒေသ၊
+ကိုယ့်ရဲ့တိုင်းပြည်အတွက် အားကိုးအားထားရတဲ့ သူလေးဖြစ်ပါစေလို့ ဆုတောင်းပေးပါတယ်နော် ချမ်း &#128153;🐬 ။
+                    အမြဲတမ်း အဝေးကနေ အားပေးလျက် ၊ ရှိနေလျက် ☘️✨....<br>I'll be there for you sisy,whenever you need me just call me and I'll be there.</p>      
+                    <div class="signature-box">Tobey🤓</div>
+                </div>
+            </div>
+
+            <div class="photo-sidebar-wrapper">
+                <div class="sidebar-header">
+                    <div class="sidebar-header-top">
+                        <span>Memories ✨</span>
+                        <span>Scroll ➡️</span>
+                    </div>
+                    <span class="sidebar-hint">🖱️ ပုံကိုနှိပ်ရင် Zoom ဆွဲပေးမှာပါ</span>
+                </div>
+                
+                <div class="photo-sidebar">
+                    <div class="sidebar-card" style="--r: 2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P5.jpeg" alt="Side 1">
+                        <div class="caption-box">Grade-9 Memo 🌸</div>
+                    </div>
+                    
+                    <div class="sidebar-card" style="--r: -2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P6.jpg" alt="Side 2">
+                        <div class="caption-box">အမြဲပြုံးနေပါနော် ချမ်း💙</div>
+                    </div>
+                    
+                    <div class="sidebar-card" style="--r: 3deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P7.jpeg" alt="Side 3">
+                        <div class="caption-box">G-10 Baby Pisi <br>(သေးသေးလေး " )</div>
+                    </div>
+                    
+                    <div class="sidebar-card" style="--r: -3deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P8.jpg" alt="Side 4">
+                        <div class="caption-box">G -11 Memo,Graceful G-12 Ma Ma✨</div>
+                    </div>
+                    
+                    <div class="sidebar-card" style="--r: 2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P10.jpg" alt="Side 5">
+                        <div class="caption-box">G-11 Ma Ma ka kout" lay nae call ny tr"🌸 </div>
+                    </div>
+					
+					<div class="sidebar-card" style="--r: 2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P11.jpeg" alt="Side 5">
+                        <div class="caption-box">စာသေချာ ကြိုးစားခဲ့တာမလို့ မမ က ဘယ်နေရာရောက်ရောက် လက်မထောင်နိုင်တယ် လေ 🥱❤️ </div>
+                    </div>
+
+					<div class="sidebar-card" style="--r: 2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\P9.jpg" alt="Side 5">
+                        <div class="caption-box">Best Wishes For My Fav girl 💖,Thanks for picturing with me </div>
+                    </div>
+
+					<div class="sidebar-card" style="--r: 2deg;">
+                        <img class="sidebar-img" src="C:\Users\hp\Desktop\congraulations\mo.jpg" alt="Side 5">
+                        <div class="caption-box">ချမ်းရဲ့ ပုံတွေကို ခွင့်မတောင်းပဲနဲ့ ယူသုံးမိလို့ တောင်းပန်ပါတယ်ခင်ဗျာ၊ suprise အနေနဲ့ ဂုဏ်ပြုချင်တာရယ်၊ အလောတကြီးဖြစ်သွားတာရယ်ကြောင့် မလို့ပါနော် ချမ်း
+ကျနော်က မကောင်းတာ လုပ်မဲ့သူ မဟုတ်မှန်း ချမ်းသိတယ်ပိုး </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" class="lightbox-content" src="" alt="Zoomed Image">
+    </div>
+
+
+<script>
+// 🎀 Pink Falling Effect (မူရင်း Canvas Logic)
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const symbols = ["💖","✨","💗","🌸","💞"];
+const fontSize = 18;
+
+const columns = canvas.width / fontSize;
+const drops = [];
+for(let i = 0; i < columns; i++){
+    drops[i] = 1;
+}
+
+function draw(){
+    ctx.fillStyle = "rgba(255,192,203,0.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++){
+        const text = symbols[Math.floor(Math.random() * symbols.length)];
+        ctx.fillStyle = "#ff69b4";
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975){
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+let rainInterval = setInterval(draw, 35);
+
+
+// ==========================================
+// NAVIGATION CONTROLLER (HISTORY API)
+// ==========================================
+
+history.replaceState({ page: 1 }, "Home", "#home");
+
+function showPage2() {
+    clearInterval(rainInterval); 
+    canvas.style.display = 'none'; 
+    
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'flex';
+    document.getElementById('page3').style.display = 'none';
+    document.body.style.overflow = 'auto'; 
+
+    history.pushState({ page: 2 }, "Gallery", "#gallery");
+}
+
+function showPage3() {
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'none';
+    document.getElementById('page3').style.display = 'flex';
+    document.body.style.overflow = 'auto'; 
+
+    history.pushState({ page: 3 }, "Letter", "#letter");
+}
+window.addEventListener("popstate", function(event) {
+    if (event.state && event.state.page === 3) {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.display = 'flex';
+        canvas.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    } 
+    else if (event.state && event.state.page === 2) {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'flex';
+        document.getElementById('page3').style.display = 'none';
+        canvas.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    } 
+    else {
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.display = 'none';
+        document.getElementById('page1').style.display = 'flex';
+        
+        canvas.style.display = 'block'; 
+        document.body.style.overflow = 'hidden'; 
+        
+        clearInterval(rainInterval);
+        rainInterval = setInterval(draw, 35);
+    }
+    closeLightbox();
+});
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+// ==========================================
+// 🔍 LIGHTBOX CLICK CONTROLLER (ZOOM FUNCTION)
+// ==========================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+document.addEventListener('click', function(e) {
+    // Page 2 ရဲ့ ဓာတ်ပုံ သို့မဟုတ် Page 3 ရဲ့ sidebar-img ကို နှိပ်မိရင် Zoom ပေးမည်
+    if (e.target.closest('.photo-frame img') || e.target.classList.contains('sidebar-img')) {
+        const clickedImgSrc = e.target.src;
+        lightboxImg.src = clickedImgSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Zoom ပေါ်ချိန် မူရင်း Page ကို Scroll မရအောင် ထိန်းထားခြင်း
+    }
+});
+
+function closeLightbox() {
+    lightbox.style.display = 'none';
+    if(document.getElementById('page1').style.display !== 'flex') {
+        document.body.style.overflow = 'auto'; // Zoom ပိတ်လိုက်ရင် Scroll ပြန်ဖွင့်ပေးခြင်း
+    }
+}
+</script>
+
+</body>
+</html>
